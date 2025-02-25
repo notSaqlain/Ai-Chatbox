@@ -3,11 +3,9 @@ import subprocess
 
 app = Flask(__name__)
 
-# Function to run your Ollama3 chatbot
 def run_ollama3_chatbot(user_input):
-    # Replace this with the actual command to run your chatbot
     process = subprocess.Popen(
-        ["python", "ollama3_chatbot.py"],  # Path to your chatbot script
+        ["python", "ollama3_chatbot.py"],  # manca il file
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -16,19 +14,16 @@ def run_ollama3_chatbot(user_input):
     stdout, stderr = process.communicate(input=user_input)
     return stdout.strip()
 
-# Route to serve the frontend
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# Route to handle chatbot requests
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("message")
     if not user_input:
         return jsonify({"error": "No message provided"}), 400
 
-    # Get the chatbot's response
     response = run_ollama3_chatbot(user_input)
     return jsonify({"response": response})
 
